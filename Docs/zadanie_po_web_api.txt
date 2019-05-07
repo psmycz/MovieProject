@@ -1,0 +1,28 @@
+﻿Zadanie po zajęciach z Web.API
+
+1. Uzyskać dostęp do Azure Devops
+
+   Wysłać maila na sharpdev@pgs-soft.com z prośbą o dostęp. Odeślemy zaproszenie do repozytorium na Azure Devops i wówczas po zalogowaniu będzie można korzystać z repozytorium (tworzyć branch-a, robić commit-y, tworzyć pull request-y)
+
+2. Przygotowanie repozytorium 
+
+   Utworzenie własnego brancha na Azure Devops (w nazwie powinno być imię i nazwisko tak aby łatwiej było zidentyfikować kogo ten branch jest)
+
+3. Wykonanie zmian w aplikacji
+
+    Dodanie własniego kodu do istniejącej aplikacji (zmiany powinny być robione na utworzonym branchu). Jako własny kod można dodać jakieś usprawnienie do aplikacji, walidację, dodatkowy endopint, dodatkowe zabezpieczenia itp. - powinno to być zrobione w miarę własnych możliwości, nie musi być tego dużo , nie ma tutaj ograniczeń :)
+
+4. Wysłanie zmian do repozytorium na Azure Devops
+
+   Po dokonaniu zmian sprawdzić czy aplikacja się buduje, jeśli tak to zrobić commit-a i push-a do repozytorium na Azure Devops
+
+5. Pull request
+
+   Jeśli zmiany już będą wrzucone na Azure Devops należy zrobić Pull Request-a z poziomu Azure Devops do gałęzi master
+
+6. Weryfikacja
+
+   My przejrzymy wysłany kod i jeśli będą jakieś zatrzeżenia dodamy komentarze lub go zaakceptujemy (odpowiednie statusy na pull request-ach)
+
+
+Powodzenia :)
