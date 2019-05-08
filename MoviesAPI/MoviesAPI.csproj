@@ -4,37 +4,12 @@
     <TargetFramework>netcoreapp2.2</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Compile Remove="Common\MovieApiException.cs" />
-    <Compile Remove="Controllers\MovieController.cs" />
-    <Compile Remove="Controllers\ReviewController.cs" />
-    <Compile Remove="DbModels\Movie.cs" />
-    <Compile Remove="DbModels\Review.cs" />
-    <Compile Remove="Filters\ExecutionTimeAttribute.cs" />
-    <Compile Remove="Filters\ModelValidationAttribute.cs" />
-    <Compile Remove="Filters\MovieApiExceptionFilterAttribute.cs" />
-    <Compile Remove="Interfaces\IMoviesService.cs" />
-    <Compile Remove="Interfaces\IReviewsService.cs" />
-    <Compile Remove="Mapping\MovieMappingProfile.cs" />
-    <Compile Remove="Mapping\ReviewMappingProfile.cs" />
-    <Compile Remove="Models\MovieRequest.cs" />
-    <Compile Remove="Models\MovieResponse.cs" />
-    <Compile Remove="Models\ReviewRequest.cs" />
-    <Compile Remove="Models\ReviewResponse.cs" />
-    <Compile Remove="Services\MoviesService.cs" />
-    <Compile Remove="Services\ReviewsService.cs" />
-  </ItemGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>E:\MoviesAPI_URz2\MoviesAPI_URZ\MoviesAPI\MoviesAPI.xml</DocumentationFile>
+  </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Common\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="DbModels\" />
-    <Folder Include="Filters\" />
-    <Folder Include="Interfaces\" />
-    <Folder Include="Mapping\" />
-    <Folder Include="Models\" />
     <Folder Include="Properties\" />
-    <Folder Include="Services\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 

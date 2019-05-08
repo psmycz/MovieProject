@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>MoviesAPI</name>
+    </assembly>
+    <members>
+        <member name="M:MoviesAPI.Controllers.MovieController.GetAllMovies">
+            <summary>
+            Get all movies
+            </summary>
+            <returns>List of movies</returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.MovieController.Get(System.Int32)">
+            <summary>
+            Get movie by id
+            </summary>
+            <param name="movieId">movie identifier</param>
+            <returns>Movie if found</returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.MovieController.Post(MoviesAPI.Models.MovieRequest)">
+            <summary>
+            Add new movie to repositorium
+            </summary>
+            <param name="movie">new movie</param>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.MovieController.Put(MoviesAPI.Models.MovieRequest)">
+            <summary>
+            Update movie in repositorium
+            </summary>
+            <param name="movie">updated movie</param>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.MovieController.Delete(System.Int32)">
+            <summary>
+            Delete movie from repositorium
+            </summary>
+            <param name="movieId">movie identifier</param>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.ReviewController.GetAllReviews">
+            <summary>
+            Get all reviews
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.ReviewController.Get(System.Int32)">
+            <summary>
+            Get review by id
+            </summary>
+            <param name="reviewId">review id</param>
+            <returns>Review if exist</returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.ReviewController.Post(MoviesAPI.Models.ReviewRequest)">
+            <summary>
+            Add new review
+            </summary>
+            <param name="review">Review</param>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.ReviewController.Put(MoviesAPI.Models.ReviewRequest)">
+            <summary>
+            Update review in repositorium
+            </summary>
+            <param name="review">updated review</param>
+            <returns></returns>
+        </member>
+        <member name="M:MoviesAPI.Controllers.ReviewController.Delete(System.Int32)">
+            <summary>
+            Delete revie
+            </summary>
+            <param name="reviewId">review identifier</param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>

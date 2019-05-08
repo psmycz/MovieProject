@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using MoviesAPI.Common;
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 
@@ -64,7 +65,7 @@ namespace MoviesAPI.Services
             var movie = MoviesService.Instace.GetById(review.MovieId);
             if (movie == null)
             {
-                //throw new MovieApiException("Invalid movie id.");
+                throw new MovieApiException("Invalid movie id.");
             }
 
             _reviews.Add(review);
