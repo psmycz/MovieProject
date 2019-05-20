@@ -6,7 +6,7 @@ namespace MoviesAPI.DbModels
     public class Movie
     {
         public Movie()
-        {
+        { 
             this.MReviews = new HashSet<Review>();
             this.MovieGenres = new HashSet<MovieGenre>();
             this.MovieUsers = new HashSet<MovieUser>();
@@ -21,8 +21,8 @@ namespace MoviesAPI.DbModels
         public int Year { get; set; }
 
         [Range(1,5)]
-        public int UsersRating { get; set; }
-
+        public int? UsersRating { get; set; }
+        
         public int? DirectorId { get; set; }
         public virtual Director Director { get; set; }
 

@@ -38,7 +38,9 @@ namespace MoviesAPI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContextPool<MovieAPIDbContext>(
-                options => options.UseSqlServer(Configuration.GetConnectionString("MovieAPIConnection")));   
+                options => options
+                            .UseSqlServer(Configuration.GetConnectionString("MovieAPIConnection"))
+                            .EnableSensitiveDataLogging());   
                                                             // kiedy instancja MovieAPIDbContext jest wywoływana nie 
                                                             // tworzy nowej instancji tylko najpierw sprawdza  
                                                             // czy juz istnieje w DbContextPool (od 2.0) -> lepsze

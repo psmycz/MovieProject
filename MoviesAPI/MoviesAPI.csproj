@@ -12,6 +12,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20190520123112_ver1.cs" />
+    <Compile Remove="Migrations\20190520123112_ver1.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="MovieAPI.xml" />
   </ItemGroup>
 

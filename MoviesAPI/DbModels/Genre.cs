@@ -10,7 +10,7 @@ namespace MoviesAPI.DbModels
     {
         public Genre()
         {
-            this.GMovies = new HashSet<MovieGenre>();
+            this.MovieGenres = new HashSet<MovieGenre>();
         }
 
         [Key]
@@ -18,6 +18,6 @@ namespace MoviesAPI.DbModels
         [Required][MaxLength(30)]
         public string GenreName { get; set; }
 
-        public virtual ICollection<MovieGenre> GMovies { get; set; }
+        public virtual ICollection<MovieGenre> MovieGenres { get; set; }
     }
 }

@@ -15,7 +15,6 @@ namespace MoviesAPI.DbModels
         public int MovieId { get; set; }
         public virtual Movie Movie { get; set; }
 
-        [Required]
         public string UserName { get; set; }
         [Required]
         public int UserId { get; set; }
