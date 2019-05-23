@@ -8,8 +8,10 @@ using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.PlatformAbstractions;
+using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Services;
 using Swashbuckle.AspNetCore.Swagger;
@@ -25,8 +27,14 @@ namespace MoviesAPI
             services.AddMvc();
             //services.AddMvcCore().AddJsonFormatters();
 
-            services.AddSingleton<IMoviesService, MoviesService>();
-            services.AddSingleton<IReviewsService, ReviewsService>();
+            services.AddScoped<IMoviesService, MoviesService>();
+            services.AddScoped<IReviewsService, ReviewsService>();
+
+            var connectionString = @"Server=.\SQLEXPRESS;Database=SharpDev2019URz;Trusted_Connection=True;";
+            services.AddDbContext<MoviesContext>(options =>
+                options
+                    .UseSqlServer(connectionString)
+                    .UseLazyLoadingProxies());
 
             services.AddAutoMapper(
                 opt => opt.CreateMissingTypeMaps = true,

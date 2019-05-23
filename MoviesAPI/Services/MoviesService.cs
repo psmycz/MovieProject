@@ -7,58 +7,27 @@ namespace MoviesAPI.Services
 {
     public class MoviesService : IMoviesService
     {
-        private static MoviesService _instance;
-        private List<Movie> _movies;
+        private MoviesContext _context;
 
-        public MoviesService()
+        public MoviesService(MoviesContext context)
         {
-            _movies = new List<Movie>
-            {
-                new Movie()
-                {
-                    Id = 1,
-                    Title = "Super film",
-                    Year = 1998,
-                 },
-                new Movie()
-                {
-                    Id = 2,
-                    Title = "Super film2",
-                    Year = 1998,
-                 },
-            };
-        }
-
-        public static MoviesService Instace
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new MoviesService();
-                }
-
-                return _instance;
-            }
+            _context = context;
         }
 
         public List<Movie> GetAll()
         {
-            return _movies;
+            return _context.Movies.ToList();
         }
 
         public Movie GetById(int id)
         {
-            Movie foundMovie = _movies
-                  .Where(movie => movie.Id == id)
-                  .SingleOrDefault();
-
-            return foundMovie;
+            return _context.Find<Movie>(id);
         }
 
         public void AddNewMovie(Movie movie)
         {
-            _movies.Add(movie);
+            _context.Movies.Add(movie);
+            _context.SaveChanges();
         }
 
         public bool UpdateMovie(Movie movie)
@@ -73,13 +42,16 @@ namespace MoviesAPI.Services
             foundMovie.Title = movie.Title;
             foundMovie.Year = movie.Year;
 
+            _context.SaveChanges();
+
             return true;
         }
 
         public void Remove(int movieId)
         {
             Movie movie = GetById(movieId);
-            _movies.Remove(movie);
+            _context.Movies.Remove(movie);
+            _context.SaveChanges();
         }
     }
 }

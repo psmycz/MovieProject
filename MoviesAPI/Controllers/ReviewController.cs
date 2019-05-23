@@ -2,6 +2,7 @@
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Models;
+using System.Collections.Generic;
 
 namespace MoviesAPI.Controllers
 {
@@ -22,7 +23,9 @@ namespace MoviesAPI.Controllers
         [HttpGet]
         public IActionResult GetAllReviews()
         {
-            return Ok(_reviewService.GetAll());
+            var reviews = _reviewService.GetAll();
+
+            return Ok(AutoMapper.Mapper.Map<List<ReviewResponse>>(reviews));
         }
 
         /// <summary>

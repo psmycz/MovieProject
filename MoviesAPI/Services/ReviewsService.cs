@@ -8,67 +8,26 @@ namespace MoviesAPI.Services
 {
     public class ReviewsService : IReviewsService
     {
-        private static ReviewsService _instance;
-        private List<Review> _reviews;
-
-        public ReviewsService()
+        private MoviesContext _context;
+        public ReviewsService(MoviesContext context)
         {
-            _reviews = new List<Review>
-            {
-                new Review()
-                {
-                    Id = 1,
-                    MovieId = 1,
-                    Comment = "dobry film",
-                    Rate = 5
-                 },
-                new Review()
-                {
-                    Id = 2,
-                    MovieId = 1,
-                    Comment = "nie warto oglądać",
-                    Rate = 1
-                 },
-            };
-        }
-
-        public static ReviewsService Instace
-        {
-            get
-            {
-                if (_instance == null)
-                {
-                    _instance = new ReviewsService();
-                }
-
-                return _instance;
-            }
+            _context = context;
         }
 
         public List<Review> GetAll()
         {
-            return _reviews;
+            return _context.Reviews.ToList();
         }
 
         public Review GetById(int id)
         {
-            Review foundMovie = _reviews
-                  .Where(review => review.Id == id)
-                  .SingleOrDefault();
-
-            return foundMovie;
+            return _context.Reviews.Find(id) ;
         }
 
         public void AddNewReview(Review review)
         {
-            //TODO
-            var movie = MoviesService.Instace.GetById(review.MovieId);
-            if (movie == null)
-            {
-                throw new MovieApiException("Invalid movie id.");
-            }
-
-            _reviews.Add(review);
+            _context.Reviews.Add(review);
+            _context.SaveChanges();
         }
 
         public bool UpdateReview(Review review)
@@ -84,13 +43,15 @@ namespace MoviesAPI.Services
             foundReview.MovieId = review.MovieId;
             foundReview.Rate = review.Rate;
 
+            _context.SaveChanges();
+
             return true;
         }
 
         public void Remove(int reviewId)
         {
-            Review review = GetById(reviewId);
-            _reviews.Remove(review);
+            _context.Remove(_context.Reviews.Find(reviewId));
+            _context.SaveChanges();
         }
     }
 }

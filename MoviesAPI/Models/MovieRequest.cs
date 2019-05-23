@@ -6,7 +6,6 @@ namespace MoviesAPI.Models
 {
     public class MovieRequest
     {
-        [Required]
         public int Id { get; set; }
 
         [Required]
