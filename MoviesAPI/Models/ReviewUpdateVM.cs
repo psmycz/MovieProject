@@ -6,13 +6,10 @@ using System.Threading.Tasks;
 
 namespace MoviesAPI.Models
 {
-    public class ReviewRequest
+    public class ReviewUpdateVM
     {
         [Required]
-        public int UserId { get; set; }
-
-        [Required]
-        public int MovieId { get; set; }
+        public int ReviewId { get; set; }
 
         [MinLength(20)]
         [MaxLength(150)]

@@ -4,8 +4,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAPI.Models
 {
-    public class MovieRequest
+    public class MovieUpdateVM
     {
+        [Required]
+        public int Id { get; set; }
 
         [Required]
         public string Title { get; set; }

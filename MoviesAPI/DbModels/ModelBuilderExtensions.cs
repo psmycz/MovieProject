@@ -10,9 +10,27 @@ namespace MoviesAPI.DbModels
     {
         public static void EntityConfiguration(this ModelBuilder modelBuilder)  // fluent API
         {
-            modelBuilder.Entity<MovieGenre>().HasKey(mg => new { mg.MovieId, mg.GenreId });     // many to many: movies -> genres
+            modelBuilder.Entity<MovieGenre>()                       // many to many: movies -> genres
+                .HasKey(mg => new { mg.MovieId, mg.GenreId });     
+            //modelBuilder.Entity<MovieGenre>()
+            //    .HasOne(mg => mg.Movie)
+            //    .WithMany(m => m.MovieGenres)
+            //    .HasForeignKey(mg => mg.MovieId);
+            //modelBuilder.Entity<MovieGenre>()
+            //    .HasOne(mg => mg.Genre)
+            //    .WithMany(g => g.MovieGenres)
+            //    .HasForeignKey(mg => mg.GenreId);
 
-            modelBuilder.Entity<MovieUser>().HasKey(mu => new { mu.MovieId, mu.UserId });       // many to many: movies -> users
+            modelBuilder.Entity<MovieUser>()                        // many to many: movies -> users
+                .HasKey(mu => new { mu.MovieId, mu.UserId });       
+            //modelBuilder.Entity<MovieUser>()
+            //    .HasOne(mu => mu.Movie)
+            //    .WithMany(m => m.MovieUsers)
+            //    .HasForeignKey(mu => mu.MovieId);
+            //modelBuilder.Entity<MovieUser>()
+            //    .HasOne(mu => mu.User)
+            //    .WithMany(u => u.MovieUsers)
+            //    .HasForeignKey(mu => mu.UserId);
 
             modelBuilder.Entity<Movie>()            // one to many:  one director -> many movies 
                 .HasOne<Director>(m => m.Director)

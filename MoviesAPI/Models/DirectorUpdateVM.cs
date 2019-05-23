@@ -1,24 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Threading.Tasks;
 
-namespace MoviesAPI.DbModels
+namespace MoviesAPI.Models
 {
-    public class Director
+    public class DirectorUpdateVM
     {
-        public Director()
-        {
-            this.DMovies = new HashSet<Movie>();
-        }
-
-        [Key]
+        [Required]
         public int DirectorId { get; set; }
         [Required]
         [MaxLength(30)]
         public string Name { get; set; }
         [MaxLength(30)]
         public string Surname { get; set; }
-        [JsonIgnore]
-        public virtual ICollection<Movie> DMovies { get; set; }
     }
 }

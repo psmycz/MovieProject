@@ -1,4 +1,5 @@
 ﻿using MoviesAPI.DbModels;
+using MoviesAPI.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +9,10 @@ namespace MoviesAPI.Interfaces
 {
     public interface IMovieRepository
     {
-        Movie GetMovie(int id);
-        IEnumerable<Movie> GetAllMovies();
-        Movie Add(Movie movie);
-        Movie Update(Movie updatedMovie);
-        Movie Delete(int id);
+        MovieResponse GetMovie(int id);
+        IEnumerable<MovieResponse> GetAllMovies();
+        MovieResponse Add(MovieRequest movie);
+        MovieResponse Update(MovieUpdateVM updatedMovie);
+        MovieResponse Delete(int id);
     }
 }

@@ -14,6 +14,8 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190520123112_ver1.cs" />
     <Compile Remove="Migrations\20190520123112_ver1.Designer.cs" />
+    <Compile Remove="Migrations\20190521145057_ver2.cs" />
+    <Compile Remove="Migrations\20190521145057_ver2.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +32,7 @@
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="3.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.2.5" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="2.2.4" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.1.0" />
   </ItemGroup>
 

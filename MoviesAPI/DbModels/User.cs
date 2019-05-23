@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -21,7 +22,9 @@ namespace MoviesAPI.DbModels
         [MaxLength(30)]
         public string Surname { get; set; }
 
+        [JsonIgnore]
         public virtual ICollection<Review> UReviews { get; set; }
+        [JsonIgnore]
         public virtual ICollection<MovieUser> MovieUsers { get; set; }
     }
 }

@@ -4,7 +4,7 @@
         <name>MoviesAPI</name>
     </assembly>
     <members>
-        <member name="M:MoviesAPI.Controllers.MovieController.GetAllMovies">
+        <member name="M:MoviesAPI.Controllers.MovieController.GetAll">
             <summary>
             Get all movies
             </summary>
@@ -24,7 +24,7 @@
             <param name="movie">new movie</param>
             <returns></returns>
         </member>
-        <member name="M:MoviesAPI.Controllers.MovieController.Put(MoviesAPI.Models.MovieRequest)">
+        <member name="M:MoviesAPI.Controllers.MovieController.Put(MoviesAPI.Models.MovieUpdateVM)">
             <summary>
             Update movie in repositorium
             </summary>
@@ -58,7 +58,7 @@
             <param name="review">Review</param>
             <returns></returns>
         </member>
-        <member name="M:MoviesAPI.Controllers.ReviewController.Put(MoviesAPI.Models.ReviewRequest)">
+        <member name="M:MoviesAPI.Controllers.ReviewController.Put(MoviesAPI.Models.ReviewUpdateVM)">
             <summary>
             Update review in repositorium
             </summary>

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Newtonsoft.Json;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace MoviesAPI.DbModels
@@ -22,12 +23,16 @@ namespace MoviesAPI.DbModels
 
         [Range(1,5)]
         public int? UsersRating { get; set; }
-        
-        public int? DirectorId { get; set; }
-        public virtual Director Director { get; set; }
 
+        [JsonIgnore]
+        public int? DirectorId { get; set; }
+        [JsonIgnore]
+        public virtual Director Director { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Review> MReviews { get; set; }
+        [JsonIgnore]
         public virtual ICollection<MovieGenre> MovieGenres { get; set; }
+        [JsonIgnore]
         public virtual ICollection<MovieUser> MovieUsers { get; set; }
     }
 }

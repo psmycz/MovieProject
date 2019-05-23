@@ -2,28 +2,47 @@
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Models;
+using System;
+using System.Collections.Generic;
 
 namespace MoviesAPI.Controllers
 {
     [Route("api/[controller]")]
-    public class MovieController : Controller
+    [ApiController]
+    public class MovieController : ControllerBase
     {
-        private IMoviesService _moviesService;
+        private IMovieRepository MovieRepository;
 
-        public MovieController(IMoviesService moviesService)
+        public MovieController(IMovieRepository movieRepository)
         {
-            _moviesService = moviesService;
+            MovieRepository = movieRepository;
         }
 
+        #region GETALL 
         /// <summary>
         /// Get all movies
         /// </summary>
         /// <returns>List of movies</returns>
         [HttpGet]
-        public IActionResult GetAllMovies()
+        public IActionResult GetAll()
         {
-            return Ok(_moviesService.GetAll());
+            try
+            {
+                var movies = MovieRepository.GetAllMovies();
+
+                if (movies == null)
+                    return NoContent();
+
+                return Ok(movies);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        #endregion
+
+        #region  GET
 
         /// <summary>
         /// Get movie by id
@@ -33,16 +52,24 @@ namespace MoviesAPI.Controllers
         [HttpGet("{movieId}")]
         public IActionResult Get(int movieId)
         {
-            Movie movie = _moviesService.GetById(movieId);
-
-            if (movie == null)
+            try
             {
-                return NotFound();
-            }
+                MovieResponse movie = MovieRepository.GetMovie(movieId);
 
-            return Ok(AutoMapper.Mapper.Map<MovieResponse>(movie));
+                if (movie == null)
+                    return NoContent();
+
+                return Ok(movie);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
 
+        #endregion
+
+        #region POST
         /// <summary>
         /// Add new movie to repositorium
         /// </summary>
@@ -51,27 +78,52 @@ namespace MoviesAPI.Controllers
         [HttpPost]
         public IActionResult Post([FromBody]MovieRequest movie)
         {
-            _moviesService.AddNewMovie(AutoMapper.Mapper.Map<Movie>(movie));
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
 
-            return Ok();
+            try
+            {
+                var newMovie = MovieRepository.Add(movie);
+
+                return Created($"~/api/[controller]/{newMovie.Id}", newMovie);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        #endregion
 
+        #region PUT
         /// <summary>
         /// Update movie in repositorium
         /// </summary>
         /// <param name="movie">updated movie</param>
         /// <returns></returns>
         [HttpPut]
-        public IActionResult Put([FromBody]MovieRequest movie)
+        public IActionResult Put([FromBody]MovieUpdateVM movie)
         {
-            if (_moviesService.UpdateMovie(AutoMapper.Mapper.Map<Movie>(movie)))
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            try
             {
-                return NoContent();
+                var updatedMovie = MovieRepository.Update(movie);
+
+                if (updatedMovie == null)
+                    return NoContent();
+
+                return Ok(updatedMovie);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
             }
 
-            return BadRequest();
         }
+        #endregion
 
+        #region DELETE
         /// <summary>
         /// Delete movie from repositorium
         /// </summary>
@@ -80,8 +132,21 @@ namespace MoviesAPI.Controllers
         [HttpDelete("{movieId}")]
         public IActionResult Delete(int movieId)
         {
-            _moviesService.Remove(movieId);
-            return Ok();
+            try
+            {
+                var deletedMovie = MovieRepository.Delete(movieId);
+            
+                if (deletedMovie == null)
+                    return NoContent();
+
+                return Ok(deletedMovie);
+            }
+            catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
+        #endregion
+
     }
 }

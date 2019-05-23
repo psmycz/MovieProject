@@ -40,16 +40,18 @@ namespace MoviesAPI
             services.AddDbContextPool<MovieAPIDbContext>(
                 options => options
                             .UseSqlServer(Configuration.GetConnectionString("MovieAPIConnection"))
+                            .UseLazyLoadingProxies()
                             .EnableSensitiveDataLogging());   
                                                             // kiedy instancja MovieAPIDbContext jest wywoływana nie 
                                                             // tworzy nowej instancji tylko najpierw sprawdza  
-                                                            // czy juz istnieje w DbContextPool (od 2.0) -> lepsze
+                                                            // czy juz istnieje w DbContextPool (od 2.0) -> lepsze podobno
             services.AddMvc();
 
-            services.AddSingleton<IMoviesService, MoviesService>();
-            services.AddSingleton<IReviewsService, ReviewsService>();
-
-            services.AddScoped<IMovieRepository, MovieRepository>(); 
+            services.AddScoped<IMovieRepository, MovieRepository>();
+            services.AddScoped<IReviewRepository, ReviewRepository>();
+            services.AddScoped<IDirectorRepository, DirectorRepository>();
+            services.AddScoped<IGenreRepository, GenreRepository>();
+            services.AddScoped<IUserRepository, UserRepository>();
                                                             // przy każdym request chcemy żeby tworzył nową instancję
 
 

@@ -6,21 +6,18 @@ using System.Threading.Tasks;
 
 namespace MoviesAPI.Models
 {
-    public class ReviewRequest
+    public class UserUpdateVM
     {
         [Required]
         public int UserId { get; set; }
 
         [Required]
-        public int MovieId { get; set; }
+        [MaxLength(30)]
+        public string Name { get; set; }
 
-        [MinLength(20)]
-        [MaxLength(150)]
-        public string Comment { get; set; }
+        [MaxLength(30)]
+        public string Surname { get; set; }
 
-        [Required]
-        [Range(1, 5)]
-        public short Rate { get; set; }
-
+        public List<int> Movies { get; set; }
     }
 }
