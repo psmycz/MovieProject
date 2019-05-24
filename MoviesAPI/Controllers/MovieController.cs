@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using MoviesAPI.DbModels;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Models;
@@ -7,6 +8,7 @@ using System.Collections.Generic;
 
 namespace MoviesAPI.Controllers
 {
+    [EnableCors("*")]
     [Route("api/[controller]")]
     [ApiController]
     public class MovieController : ControllerBase

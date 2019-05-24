@@ -54,6 +54,9 @@ namespace MoviesAPI
             services.AddScoped<IUserRepository, UserRepository>();
                                                             // przy każdym request chcemy żeby tworzył nową instancję
 
+            services.AddCors(c => {
+                c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());
+            });
 
             services.AddAutoMapper(
                 opt => opt.CreateMissingTypeMaps = true,
@@ -77,7 +80,16 @@ namespace MoviesAPI
                 app.UseDeveloperExceptionPage();
             }
 
-            app.UseMvc();
+            app.UseMvc(routes =>
+            {
+                routes.MapRoute(
+                    name: "default",
+                    template: "{controller=Home}/{action=Index}/{id?}");
+            });
+
+            app.UseStaticFiles();
+
+            app.UseCors(options => options.AllowAnyOrigin());
 
             app.UseSwagger();
 

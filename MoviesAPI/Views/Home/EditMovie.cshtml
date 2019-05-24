@@ -1,0 +1,76 @@
+﻿@model MoviesAPI.Models.MovieResponse
+
+<h1>Edit</h1>
+<hr />
+<div class="jumbotron col-4" style="float:left">
+    <h1 style="text-align:center"><strong>@Model.Title</strong></h1>
+    <hr />
+    <p><strong>Rok wydania: </strong>@Model.Year</p>
+    <p>
+        <strong>Gatunek:</strong>
+        @foreach (var genre in @Model.Genres)
+        {
+            <text> @genre </text>
+        }
+    </p>
+    <p>
+        <strong>Reżyser: </strong>@if (@ViewBag.director != null)
+        {@ViewBag.director.Name @ViewBag.director.Surname}
+    </p>
+    <p>
+        <strong>Ocena: </strong>
+        @if (@Model.UsersRating > 0)
+        {
+            @Model.UsersRating
+        }
+        else
+        {
+            <text>Brak Danych</text>
+        }
+    </p>
+
+    <style>
+        .btn {
+            width: 90px;
+        }
+    </style>
+    @Html.RouteLink("Powrót", new { controller = "Home", action = "Index" }, new { @class = "btn btn-primary" })
+
+    <form method="post" asp-action="Delete">
+        <input type="hidden" id="movieId" name="movieId" value="@Model.Id">
+        <input class="btn btn-danger" type="submit" name="delete" value="Delete" />
+    </form>
+</div>
+
+
+
+<div class="col-6" style="float:left">
+    <br />
+    @using (Html.BeginForm())
+    {
+
+        MoviesAPI.Models.MovieUpdateVM updateVM = new MoviesAPI.Models.MovieUpdateVM();
+        
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+    <div class="form-group" style="width: 20rem">
+        @Html.Label("", "New Title", new { @class = "col-md-12 control-label" })
+        @Html.TextBox("Title", updateVM.Title, new { @class = "form-control" })
+        @Html.ValidationMessage("Title", "", new { @class = "text-danger" })
+
+        @Html.Label("", "New Year", new { @class = "col-md-12 control-label" })
+        @Html.TextBox("Year", updateVM.Year, new { @class = "form-control" })
+        @Html.ValidationMessage("Year", "", new { @class = "text-danger" })
+
+        @Html.Label("", "New Director", new { @class = "col-md-5 control-label" })
+        @Html.DropDownList("DirectorId", @ViewBag.selectDirector, "", new { @class = "form-control" })
+        @Html.ValidationMessage("DirectorId", "", new { @class = "text-danger" })
+
+        <br />
+        <input type="hidden" id="Id" name="Id" value="@Model.Id">
+        <input class="btn btn-primary btn-lg btn-block col-4" type="submit" name="edit" value="Update" />
+        <hr />
+    </div>
+    }
+
+</div>

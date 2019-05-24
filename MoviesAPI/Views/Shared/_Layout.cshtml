@@ -1,0 +1,73 @@
+﻿@{
+}
+<!DOCTYPE html>
+
+<html lang="en-gb">
+<head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="~/lib/bootstrap/css/bootstrap.css" rel="stylesheet" />
+    <link href="~/css/StyleSheet.css" rel="stylesheet" />
+
+    <title>Movie API Project</title>
+
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Navigation</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarColor02">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active order-0">
+                    <a class="nav-link" href="/Home/Index">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item order-1">
+                    <a class="nav-link" href="/Home/About">About</a>
+                </li>
+            </ul>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <form class="form-inline my-2 my-lg-0">
+                    <h6 style="align-items">
+                        <font color="white">Hello, @(User.Identity.Name) &nbsp&nbsp</font>
+                        @Html.RouteLink("Logout", new { controller = "Home", action = "Logout" }, new { @class = "btn btn-secondary" })
+                    </h6>
+                </form>
+            }
+            else
+            {
+                <form class="form-inline my-2 my-lg-0">
+                    <div class="btn-group" role="group" aria-label="Basic example">
+                        @Html.RouteLink("Login", new { controller = "Home", action = "Login" }, new { @class = "btn btn-primary" })
+                        @Html.RouteLink("Register", new { controller = "Home", action = "Register" }, new { @class = "btn btn-primary" })
+                    </div>
+                </form>
+            }
+        </div>
+    </nav>
+    <!-- Page Container -->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <!--  <script src="~/Scripts/jquery-3.0.0.slim.min.js"></script>
+        <script src="~/Scripts/umd/popper.min.js"></script>
+        <script src="~/Scripts/bootstrap.min.js"></script>
+        <script src="~/Scripts/bootbox.min.js"></script> -->
+
+</body>
+    </html>

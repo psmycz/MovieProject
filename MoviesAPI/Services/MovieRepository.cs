@@ -123,8 +123,10 @@ namespace MoviesAPI.Services
                 movie.DirectorId = updatedMovie.DirectorId;
             }
 
-            context.MovieGenres.RemoveRange(context.MovieGenres.Where(mg => mg.MovieId == updatedMovie.Id));
             context.SaveChanges();
+            context.MovieGenres.RemoveRange(context.MovieGenres.Where(mg => mg.MovieId == updatedMovie.Id)); 
+                                                // jesli jest przed save context to jesli damy pusta liste gatunkow to ja wyzeruje
+                                                // jakis warunek lepszy by sie tu przydał
 
             if (updatedMovie.Genres != null)
             {

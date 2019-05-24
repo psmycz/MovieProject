@@ -1,0 +1,76 @@
+﻿@model MoviesAPI.Models.MovieResponse
+
+<h1>View</h1>
+<hr />
+<div class="jumbotron col-4">
+    <h1 style="text-align:center"><strong>@Model.Title</strong></h1>
+    <hr />
+    <p><strong>Rok wydania: </strong>@Model.Year</p>
+    <p>
+        <strong>Gatunek:</strong>
+        @foreach (var genre in @Model.Genres)
+        {
+            <text> @genre </text>
+        }
+    </p>
+    <p>
+        <strong>Reżyser: </strong>@if (@ViewBag.director != null)
+        {<text>@ViewBag.director.Name @ViewBag.director.Surname</text>}
+    </p>
+    <p>
+        <strong>Ocena: </strong>
+        @if (@Model.UsersRating > 0)
+        {
+            @Model.UsersRating
+        }
+        else
+        {
+            <text>Brak Danych</text>
+        }
+    </p>
+
+    <style>
+        .btn{
+            width: 90px;
+        }
+    </style>
+
+    <form method="get" asp-action="Edit" asp-route-id="@Model.Id">
+        <button class="btn btn-primary">Edit</button>
+    </form>
+
+    <form method="post" asp-action="Delete">
+        <input type="hidden" id="movieId" name="movieId" value="@Model.Id">
+        <input class="btn btn-danger" type="submit" name="delete" value="Delete" />
+    </form>
+
+</div>
+<hr />
+<h3>Recenzje:</h3>
+<Table class="table table-hover">
+    <thead>
+        <tr class="table-active">
+            <th scope="col">Komentarz</th>
+            <th scope="col">Ocena</th>
+            <!--<th>Id</th>-->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var r in @ViewBag.reviews)
+        {
+            <tr>
+                <td>@r.Comment</td>
+                <td>@r.Rate</td>
+                <!--<td>@r.Id</td>-->
+            </tr>
+        }
+    </tbody>
+</Table>
+<hr />
+<h3>Wypożyczyli:</h3>
+<ul class="list-group">
+    @foreach (var u in @ViewBag.users)
+    {
+    <li class="list-group-item">@u.Name @u.Surname</li>
+    }
+</ul>

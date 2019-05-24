@@ -1,0 +1,53 @@
+﻿@model IEnumerable<MoviesAPI.Models.MovieResponse>
+
+<h1>@ViewBag.Title </h1>
+<hr />
+
+<div class="card-deck row justify-content-center ">
+    @foreach (var movie in Model)
+    {
+        <div class="col-auto mb-4" style="width: 17rem;">
+            <div class="card-header">
+                <h2 class="text-center">@movie.Title</h2>
+                <hr />
+                <p><text>Rok wydania:  @movie.Year</text></p>
+                <p>
+                    <text>
+                        Gatunek:  @foreach (var genre in movie.Genres)
+                        {<text> @genre&nbsp;</text>}
+                    </text>
+                </p>
+                <p>
+                    <text>
+                        Ocena: @if (@movie.UsersRating > 0)
+                        {
+                            @movie.UsersRating
+                        }
+                        else
+                        {
+                            <text>Brak Danych</text>
+                        }
+                    </text>
+                </p>
+
+            </div>
+
+
+
+            <div class="card-footer text-center">
+                <form method="get" asp-action="View" asp-route-id="@movie.Id">
+                    <button class="btn btn-primary">View</button>
+                </form>
+
+                <form method="get" asp-action="Edit" asp-route-id="@movie.Id">
+                    <button class="btn btn-primary">Edit</button>
+                </form>
+
+                <form method="post" asp-action="Delete">
+                    <input type="hidden" id="movieId" name="movieId" value="@movie.Id">
+                    <input class="btn btn-danger" type="submit" name="delete" value="Delete" />
+                </form>
+            </div>
+        </div>
+    }
+</div>
