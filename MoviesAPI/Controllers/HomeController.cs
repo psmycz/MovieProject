@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using MoviesAPI.Common;
 using MoviesAPI.Interfaces;
 using MoviesAPI.Models;
 
@@ -24,13 +25,43 @@ namespace MoviesAPI.Controllers
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
         {
             ViewBag.Title = "Home";
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+
+            if (searchString != null)
+            {
+                pageNumber = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
 
             var Movies = MovieRepository.GetAllMovies();
 
-            return View(Movies);
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                Movies = Movies.Where(m => m.Title.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "title_desc":
+                    Movies = Movies.OrderByDescending(m => m.Title);
+                    break;
+
+                default:
+                    Movies = Movies.OrderBy(m => m.Title);
+                    break;
+            }
+
+            int pageSize = 8;
+            return View(PaginatedList<MovieResponse>.Create(Movies.AsQueryable(), pageNumber ?? 1, pageSize));
         }
 
         [HttpGet]

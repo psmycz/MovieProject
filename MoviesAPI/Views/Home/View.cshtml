@@ -30,11 +30,12 @@
     </p>
 
     <style>
-        .btn{
+        .btn {
             width: 90px;
         }
     </style>
 
+    @Html.RouteLink("Back", new { controller = "Home", action = "Index" }, new { @class = "btn btn-primary" })
     <form method="get" asp-action="Edit" asp-route-id="@Model.Id">
         <button class="btn btn-primary">Edit</button>
     </form>

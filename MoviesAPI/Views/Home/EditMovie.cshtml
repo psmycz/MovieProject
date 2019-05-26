@@ -34,7 +34,7 @@
             width: 90px;
         }
     </style>
-    @Html.RouteLink("Powrót", new { controller = "Home", action = "Index" }, new { @class = "btn btn-primary" })
+    @Html.RouteLink("Back", new { controller = "Home", action = "Index" }, new { @class = "btn btn-primary" })
 
     <form method="post" asp-action="Delete">
         <input type="hidden" id="movieId" name="movieId" value="@Model.Id">
