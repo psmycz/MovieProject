@@ -10,20 +10,20 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        private IUserRepository UserRepository;
+        private IUserRepository userRepository;
 
-        public UserController(IUserRepository userRepository)
+        public UserController(IUserRepository _userRepository)
         {
-            UserRepository = userRepository;
+            userRepository = _userRepository;
         }
 
-        #region GETALL
+
         [HttpGet]
         public IActionResult GetAllReviews()
         {
             try
             {
-                var users = UserRepository.GetAllUsers();
+                var users = userRepository.GetAllUsers();
 
                 if (users == null)
                     return NoContent();
@@ -35,15 +35,15 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region GET
+
+
         [HttpGet("{userId}")]
         public IActionResult Get(int userId)
         {
             try
             {
-                var user = UserRepository.GetUser(userId);
+                var user = userRepository.GetUser(userId);
 
                 if (user == null)
                     return NoContent();
@@ -55,9 +55,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region POST
+
+
         [HttpPost]
         public IActionResult Post([FromBody]UserRequest user)
         {
@@ -66,20 +66,20 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var newUser = UserRepository.Add(user);
+                var newUser = userRepository.Add(user);
                 if (newUser== null)
                     return BadRequest();
 
-                return Created($"~/api/[controller]/{newUser.UserId}", newUser);
+                return CreatedAtAction(nameof(Get), new { userId = newUser.UserId }, newUser);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region PUT
+
+
         [HttpPut]
         public IActionResult Put([FromBody]UserUpdateVM user)
         {
@@ -88,7 +88,7 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var updatedUser = UserRepository.Update(user);
+                var updatedUser = userRepository.Update(user);
 
                 if (updatedUser == null)
                     return NoContent();
@@ -100,15 +100,15 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region DELETE
+
+
         [HttpDelete("{userId}")]
         public IActionResult Delete(int userId)
         {
             try
             {
-                var deletedUser = UserRepository.Delete(userId);
+                var deletedUser = userRepository.Delete(userId);
 
                 if (deletedUser == null)
                     return NoContent();
@@ -120,7 +120,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
 
     }
 }

@@ -10,13 +10,13 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        private IReviewRepository ReviewRepository;
+        private IReviewRepository reviewRepository;
 
-        public ReviewController(IReviewRepository reviewRepository)
+        public ReviewController(IReviewRepository _reviewRepository)
         {
-            ReviewRepository = reviewRepository;
+            reviewRepository = _reviewRepository;
         }
-        #region GETALL
+
         /// <summary>
         /// Get all reviews
         /// </summary>
@@ -26,7 +26,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                var reviews = ReviewRepository.GetAllReviews();
+                var reviews = reviewRepository.GetAllReviews();
 
                 if (reviews == null)
                     return NoContent();
@@ -38,9 +38,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region GET
+
+
         /// <summary>
         /// Get review by id
         /// </summary>
@@ -51,7 +51,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                var review = ReviewRepository.GetReview(reviewId);
+                var review = reviewRepository.GetReview(reviewId);
 
                 if (review == null)
                     return NoContent();
@@ -63,9 +63,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region POST
+
+
         /// <summary>
         /// Add new review
         /// </summary>
@@ -79,23 +79,23 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var newReview = ReviewRepository.Add(review);
+                var newReview = reviewRepository.Add(review);
                 if (newReview == null)
                 {
                     ModelState.AddModelError("","Movie or User does not exist.");
                     return BadRequest(ModelState);
                 }
 
-                return Created($"~/api/[controller]/{newReview.Id}", newReview);
+                return CreatedAtAction(nameof(Get), new { reviewId = newReview.Id }, newReview);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region PUT
+
+
         /// <summary>
         /// Update review in repositorium
         /// </summary>
@@ -109,7 +109,7 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var updatedReview = ReviewRepository.Update(review);
+                var updatedReview = reviewRepository.Update(review);
 
                 if (updatedReview == null)
                     return NoContent();
@@ -121,9 +121,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region DELETE
+
+
         /// <summary>
         /// Delete revie
         /// </summary>
@@ -134,7 +134,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                var deletedReview = ReviewRepository.Delete(reviewId);
+                var deletedReview = reviewRepository.Delete(reviewId);
 
                 if (deletedReview == null)
                     return NoContent();
@@ -146,7 +146,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
 
     }
 }

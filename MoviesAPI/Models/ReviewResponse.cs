@@ -7,6 +7,7 @@ namespace MoviesAPI.Models
         public int Id { get; set; }
         public string Comment { get; set; }
         public short Rate { get; set; }
+        public string Username { get; set; }
         public string MovieTitle { get; set; }
         public User User { get; set; }
     }

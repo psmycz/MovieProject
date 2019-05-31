@@ -25,16 +25,18 @@ namespace MoviesAPI.Services
                 Rate = reviewRequest.Rate,
             };
 
-            var existingUsers = context.Users.Select(u => u.UserId).ToList();
-            if (reviewRequest.UserId > 0 && existingUsers.Contains(reviewRequest.UserId))
+            var existingUsersIds = context.Users.Select(u => u.UserId).ToList();
+            if (reviewRequest.UserId > 0 && existingUsersIds.Contains(reviewRequest.UserId))
             {
                 review.UserId = reviewRequest.UserId;
+                var user = context.Users.Find(reviewRequest.UserId);
+                review.UserName = user.Name + ' ' + user.Surname;
             }
             else
                 return null;
 
-            var existingMovies = context.Movies.Select(m => m.Id).ToList();
-            if (reviewRequest.MovieId > 0 && existingMovies.Contains(reviewRequest.MovieId))
+            var existingMoviesIds = context.Movies.Select(m => m.Id).ToList();
+            if (reviewRequest.MovieId > 0 && existingMoviesIds.Contains(reviewRequest.MovieId))
             {
                 review.MovieId = reviewRequest.MovieId;
             }
@@ -42,6 +44,10 @@ namespace MoviesAPI.Services
                 return null;
 
             context.Reviews.Add(review);
+            context.SaveChanges();
+
+            Movie movie = context.Movies.Find(review.MovieId);                // update field "userRating" for movie
+            movie.UsersRating = movie.MovieReviews.Average(r => r.Rate);
             context.SaveChanges();
 
             ReviewResponse reviewResponse = GetReview(review.Id);
@@ -55,10 +61,22 @@ namespace MoviesAPI.Services
             if (review == null)
                 return null;
 
+            Movie movie = context.Movies.Find(review.MovieId);                // update field "userRating" for movie
             ReviewResponse reviewResponse = GetReview(id);
 
             context.Reviews.Remove(review);
             context.SaveChanges();
+
+            if (movie.MovieReviews.Any())
+            {
+                movie.UsersRating = movie.MovieReviews.Average(r => r.Rate);
+                context.SaveChanges();
+            }
+            else
+            {
+                movie.UsersRating = null;
+                context.SaveChanges();
+            }                                                       // todo: does not update on user deletion, on delete cascade works different
 
             return reviewResponse;
         }
@@ -73,6 +91,7 @@ namespace MoviesAPI.Services
                                                        Comment = r.Comment,
                                                        Rate = r.Rate,
                                                        User = (r.UserId > 0) ? r.User : null,
+                                                       Username = r.UserName
                                                    });
             return reviews;
         }
@@ -88,6 +107,7 @@ namespace MoviesAPI.Services
                                           Comment = r.Comment,
                                           Rate = r.Rate,
                                           User = (r.UserId > 0) ? r.User : null,
+                                          Username = r.UserName
                                       }).SingleOrDefault();
             return review;
         }
@@ -100,6 +120,10 @@ namespace MoviesAPI.Services
 
             review.Comment = updatedReview.Comment;
             review.Rate = updatedReview.Rate;
+            context.SaveChanges();
+
+            Movie movie = context.Movies.Find(review.MovieId);                // update field "userRating" for movie
+            movie.UsersRating = movie.MovieReviews.Average(r => r.Rate);
             context.SaveChanges();
 
             return GetReview(review.Id);

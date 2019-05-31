@@ -8,7 +8,7 @@ namespace MoviesAPI.DbModels
     {
         public Director()
         {
-            this.DMovies = new HashSet<Movie>();
+            this.DirectorMovies = new HashSet<Movie>();
         }
 
         [Key]
@@ -19,6 +19,6 @@ namespace MoviesAPI.DbModels
         [MaxLength(30)]
         public string Surname { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Movie> DMovies { get; set; }
+        public virtual ICollection<Movie> DirectorMovies { get; set; }
     }
 }

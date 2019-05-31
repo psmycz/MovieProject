@@ -11,7 +11,7 @@ namespace MoviesAPI.DbModels
     {
         public User()
         {
-            this.UReviews = new HashSet<Review>();
+            this.UserReviews = new HashSet<Review>();
             this.MovieUsers = new HashSet<MovieUser>();
         }
 
@@ -23,7 +23,7 @@ namespace MoviesAPI.DbModels
         public string Surname { get; set; }
 
         [JsonIgnore]
-        public virtual ICollection<Review> UReviews { get; set; }
+        public virtual ICollection<Review> UserReviews { get; set; }
         [JsonIgnore]
         public virtual ICollection<MovieUser> MovieUsers { get; set; }
     }

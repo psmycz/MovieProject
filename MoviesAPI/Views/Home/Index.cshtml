@@ -8,9 +8,18 @@
 <form asp-action="Index" method="get">
     <div class="form-actions no-color">
         <p>
-            Find by Title: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
-            <input type="submit" value="Search" class="btn btn-primary" /> |
+            Find by Title or Year: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-primary"  /> |
             <a asp-action="Index">Back to Full List</a>
+        </p>
+        <p>
+            Minimum Rate: <input type="text" name="rateFilter" value="@ViewData["rateFilter"]" />
+            <input type="submit" value="Filtr" class="btn btn-primary" /> |
+            <a asp-action="Index" 
+                asp-route-rateFilter=""
+                asp-route-currentFilter="@ViewData["CurrentFilter"]">
+                Clear filters
+            </a>
         </p>
     </div>
 </form>
@@ -19,6 +28,7 @@
 <a asp-action="Index"
    asp-route-sortOrder="@ViewData["TitleSortParm"]"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-rateFilter="@ViewData["rateFilter"]"
    class="btn btn-secondary btn-block col-1">
     Sort
 </a>
@@ -78,6 +88,7 @@
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex - 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-rateFilter="@ViewData["rateFilter"]"
    class="btn btn-secondary @prevDisabled">
     Previous
 </a>
@@ -85,6 +96,7 @@
    asp-route-sortOrder="@ViewData["CurrentSort"]"
    asp-route-pageNumber="@(Model.PageIndex + 1)"
    asp-route-currentFilter="@ViewData["CurrentFilter"]"
+   asp-route-rateFilter="@ViewData["rateFilter"]"
    class="btn btn-secondary @nextDisabled">
     Next
 </a>

@@ -73,7 +73,7 @@ namespace MoviesAPI.Services
                                                    Name = u.Name,
                                                    Surname = u.Surname,
                                                    Movies = u.MovieUsers.Select(mu => mu.Movie).ToList(),
-                                                   Reviews = u.UReviews.ToList()
+                                                   Reviews = u.UserReviews.ToList()
                                                });
             return users;
         }
@@ -88,7 +88,7 @@ namespace MoviesAPI.Services
                                              Name = u.Name,
                                              Surname = u.Surname,
                                              Movies = u.MovieUsers.Select(mu => mu.Movie).ToList(),
-                                             Reviews = u.UReviews.ToList()
+                                             Reviews = u.UserReviews.ToList()
                                          }).SingleOrDefault();
             return userResponse;
         }

@@ -15,7 +15,7 @@ namespace MoviesAPI.DbModels
         }
 
         public DbSet<Movie> Movies { get; set; }
-        public DbSet<Review> Reviews { get; set; } // nie koniecznie bo można się dostać przez movie
+        public DbSet<Review> Reviews { get; set; }
         public DbSet<Director> Directors { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<MovieGenre> MovieGenres { get; set; }
@@ -23,11 +23,9 @@ namespace MoviesAPI.DbModels
         public DbSet<Genre> Genres { get; set; }
 
         public DbQuery<GetDataForMovie> GetDataForMovie { get; set; }
-       // public DbQuery<GetReviewsForMovie> GetReviewsForMovie { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // modelBuilder.Seed();
             modelBuilder.EntityConfiguration(); 
         }
     }

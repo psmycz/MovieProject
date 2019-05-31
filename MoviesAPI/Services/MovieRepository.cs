@@ -75,6 +75,7 @@ namespace MoviesAPI.Services
 
         public IEnumerable<MovieResponse> GetAllMovies()
         {
+
             IEnumerable<MovieResponse> movies = (from m in context.Movies
                                                  select new MovieResponse
                                                  {
@@ -84,7 +85,7 @@ namespace MoviesAPI.Services
                                                      UsersRating = m.UsersRating,
                                                      Director = (m.DirectorId != null) ? m.Director : null,
                                                      Genres = context.GetDataForMovie.Where(a => a.Id == m.Id).Select(a => a.GenreName).Distinct().ToList(),
-                                                     Reviews = m.MReviews.ToList(),//AutoMapper.Mapper.Map<List<ReviewResponse>>(m.MReviews),
+                                                     Reviews = m.MovieReviews.ToList(),
                                                      Users = m.MovieUsers.Select(mu => mu.User).ToList()
                                                  });
             return movies;
@@ -102,7 +103,7 @@ namespace MoviesAPI.Services
                                                      UsersRating = m.UsersRating,
                                                      Director = (m.DirectorId != null) ? m.Director : null,
                                                      Genres = context.GetDataForMovie.Where(a => a.Id == m.Id).Select(a => a.GenreName).Distinct().ToList(),
-                                                     Reviews = m.MReviews.ToList(),//AutoMapper.Mapper.Map<List<ReviewResponse>>(m.MReviews),
+                                                     Reviews = m.MovieReviews.ToList(),
                                                      Users = m.MovieUsers.Select(mu => mu.User).ToList()
                                                  }).SingleOrDefault();
             return movieResponse;
@@ -123,10 +124,8 @@ namespace MoviesAPI.Services
                 movie.DirectorId = updatedMovie.DirectorId;
             }
 
+            context.MovieGenres.RemoveRange(context.MovieGenres.Where(mg => mg.MovieId == updatedMovie.Id));
             context.SaveChanges();
-            context.MovieGenres.RemoveRange(context.MovieGenres.Where(mg => mg.MovieId == updatedMovie.Id)); 
-                                                // jesli jest przed save context to jesli damy pusta liste gatunkow to ja wyzeruje
-                                                // jakis warunek lepszy by sie tu przydał
 
             if (updatedMovie.Genres != null)
             {

@@ -13,23 +13,23 @@ namespace MoviesAPI.Controllers
     
     public class HomeController : Controller
     {
-        private IMovieRepository MovieRepository;
-        private IDirectorRepository DirectorRepository;
-        private IGenreRepository GenreRepository;
+        private IMovieRepository movieRepository;
+        private IDirectorRepository directorRepository;
+        private IGenreRepository genreRepository;
 
-        public HomeController(IMovieRepository movieRepository, IDirectorRepository directorRepository, IGenreRepository genreRepository)
+        public HomeController(IMovieRepository _movieRepository, IDirectorRepository _directorRepository, IGenreRepository _genreRepository)
         {
-            MovieRepository = movieRepository;
-            DirectorRepository = directorRepository;
-            GenreRepository = genreRepository;
+            movieRepository = _movieRepository;
+            directorRepository = _directorRepository;
+            genreRepository = _genreRepository;
         }
 
         [HttpGet]
-        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber)
+        public IActionResult Index(string sortOrder, string currentFilter, string searchString, int? pageNumber, double? rateFilter)
         {
             ViewBag.Title = "Home";
             ViewData["CurrentSort"] = sortOrder;
-            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewData["TitleSortParm"] = String.IsNullOrEmpty(sortOrder) ? "title_desc" : String.Empty;
 
             if (searchString != null)
             {
@@ -42,11 +42,18 @@ namespace MoviesAPI.Controllers
 
             ViewData["CurrentFilter"] = searchString;
 
-            var Movies = MovieRepository.GetAllMovies();
+            var Movies = movieRepository.GetAllMovies();
 
             if (!String.IsNullOrEmpty(searchString))
             {
-                Movies = Movies.Where(m => m.Title.Contains(searchString));
+                Movies = Movies.Where(m => m.Title.Contains(searchString) ||
+                                        m.Year.ToString().Contains(searchString)
+                                        );
+            }
+            if(rateFilter != null)
+            {
+                Movies = Movies.Where(m => m.UsersRating >= rateFilter);
+                @ViewData["rateFilter"] = rateFilter;
             }
 
             switch (sortOrder)
@@ -68,7 +75,7 @@ namespace MoviesAPI.Controllers
         [Route("[controller]/View/{movieId}")]
         public IActionResult View(int movieId)
         {
-            var movie = MovieRepository.GetMovie(movieId);
+            var movie = movieRepository.GetMovie(movieId);
             if (movie == null)
                 return View("ErrorPage");
 
@@ -83,14 +90,17 @@ namespace MoviesAPI.Controllers
         [Route("[controller]/Edit/{movieId}")]
         public IActionResult Edit(int movieId)
         {
-            var movie = MovieRepository.GetMovie(movieId);
+            var movie = movieRepository.GetMovie(movieId);
             if (movie == null)
                 return View("ErrorPage");
 
             ViewBag.Director = movie.Director;
 
-            SelectList selectList = new SelectList(DirectorRepository.GetAllDirectors(), "DirectorId", "Name");
-            ViewBag.SelectDirector = selectList;
+            SelectList selectListGenres = new SelectList(genreRepository.GetAllGenres(), "GenreId", "GenreName");
+            ViewBag.SelectGenres = selectListGenres;
+
+            SelectList selectListDirectors = new SelectList(directorRepository.GetAllDirectors(), "DirectorId", "Name");
+            ViewBag.SelectDirector = selectListDirectors;
 
             return View("EditMovie", movie);
         }
@@ -99,19 +109,23 @@ namespace MoviesAPI.Controllers
         [Route("[controller]/Edit/{movieId}")]
         public IActionResult Edit(MovieUpdateVM movieVM)
         {
-            
-                var updatedMovie = MovieRepository.Update(movieVM);
+            if (ModelState.IsValid)
+            {
+                var updatedMovie = movieRepository.Update(movieVM);
                 if (updatedMovie == null)
                     return View("ErrorPage");
-            
-            return View("Index", MovieRepository.GetAllMovies());
+            }
+            else
+                return RedirectToAction("Edit", movieVM.Id);
+
+            return RedirectToAction("View", movieVM.Id);
         }
 
 
         [HttpPost]
         public IActionResult Delete(int movieId)
         {
-            var movie = MovieRepository.Delete(movieId);
+            var movie = movieRepository.Delete(movieId);
             if (movie == null)
                 return View("ErrorPage");
 
@@ -125,5 +139,8 @@ namespace MoviesAPI.Controllers
 
             return View();
         }
+
+
+
     }
 }

@@ -52,7 +52,6 @@ namespace MoviesAPI
             services.AddScoped<IDirectorRepository, DirectorRepository>();
             services.AddScoped<IGenreRepository, GenreRepository>();
             services.AddScoped<IUserRepository, UserRepository>();
-                                                            // przy każdym request chcemy żeby tworzył nową instancję
 
             services.AddCors(c => {
                 c.AddPolicy("AllowOrigin", options => options.AllowAnyOrigin());

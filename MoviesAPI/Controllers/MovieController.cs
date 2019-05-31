@@ -13,14 +13,14 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class MovieController : ControllerBase
     {
-        private IMovieRepository MovieRepository;
+        private IMovieRepository movieRepository;
 
-        public MovieController(IMovieRepository movieRepository)
+        public MovieController(IMovieRepository _movieRepository)
         {
-            MovieRepository = movieRepository;
+            movieRepository = _movieRepository;
         }
 
-        #region GETALL 
+
         /// <summary>
         /// Get all movies
         /// </summary>
@@ -30,7 +30,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                var movies = MovieRepository.GetAllMovies();
+                var movies = movieRepository.GetAllMovies();
 
                 if (movies == null)
                     return NoContent();
@@ -42,9 +42,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region  GET
+
+
 
         /// <summary>
         /// Get movie by id
@@ -56,7 +56,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                MovieResponse movie = MovieRepository.GetMovie(movieId);
+                MovieResponse movie = movieRepository.GetMovie(movieId);
 
                 if (movie == null)
                     return NoContent();
@@ -69,9 +69,8 @@ namespace MoviesAPI.Controllers
             }
         }
 
-        #endregion
 
-        #region POST
+
         /// <summary>
         /// Add new movie to repositorium
         /// </summary>
@@ -85,18 +84,18 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var newMovie = MovieRepository.Add(movie);
+                var newMovie = movieRepository.Add(movie);
 
-                return Created($"~/api/[controller]/{newMovie.Id}", newMovie);
+                return CreatedAtAction(nameof(Get), new { movieId = newMovie.Id }, newMovie);
             }
             catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region PUT
+
+
         /// <summary>
         /// Update movie in repositorium
         /// </summary>
@@ -110,7 +109,7 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var updatedMovie = MovieRepository.Update(movie);
+                var updatedMovie = movieRepository.Update(movie);
 
                 if (updatedMovie == null)
                     return NoContent();
@@ -123,9 +122,8 @@ namespace MoviesAPI.Controllers
             }
 
         }
-        #endregion
 
-        #region DELETE
+
         /// <summary>
         /// Delete movie from repositorium
         /// </summary>
@@ -136,7 +134,7 @@ namespace MoviesAPI.Controllers
         {
             try
             {
-                var deletedMovie = MovieRepository.Delete(movieId);
+                var deletedMovie = movieRepository.Delete(movieId);
             
                 if (deletedMovie == null)
                     return NoContent();
@@ -148,7 +146,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
 
     }
 }

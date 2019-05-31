@@ -8,7 +8,7 @@ namespace MoviesAPI.DbModels
     {
         public Movie()
         { 
-            this.MReviews = new HashSet<Review>();
+            this.MovieReviews = new HashSet<Review>();
             this.MovieGenres = new HashSet<MovieGenre>();
             this.MovieUsers = new HashSet<MovieUser>();
         }
@@ -21,15 +21,14 @@ namespace MoviesAPI.DbModels
         [Range(1900,2050)]
         public int Year { get; set; }
 
-        [Range(1,5)]
-        public int? UsersRating { get; set; }
+        public double? UsersRating { get; set; }
 
         [JsonIgnore]
         public int? DirectorId { get; set; }
         [JsonIgnore]
         public virtual Director Director { get; set; }
         [JsonIgnore]
-        public virtual ICollection<Review> MReviews { get; set; }
+        public virtual ICollection<Review> MovieReviews { get; set; }
         [JsonIgnore]
         public virtual ICollection<MovieGenre> MovieGenres { get; set; }
         [JsonIgnore]

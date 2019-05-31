@@ -41,7 +41,7 @@ namespace MoviesAPI.Services
             if (director == null)
                 return null;
 
-            foreach(var m in director.DMovies)
+            foreach(var m in director.DirectorMovies)
             {
                 m.DirectorId = null;
             }
@@ -62,7 +62,7 @@ namespace MoviesAPI.Services
                                                            DirectorId = d.DirectorId,
                                                            Name = d.Name,
                                                            Surname = d.Surname,
-                                                           Movies = d.DMovies.ToList()
+                                                           Movies = d.DirectorMovies.ToList()
                                                        });
             return directors;
         }
@@ -76,7 +76,7 @@ namespace MoviesAPI.Services
                                                      DirectorId = d.DirectorId,
                                                      Name = d.Name,
                                                      Surname = d.Surname,
-                                                     Movies = d.DMovies.ToList()
+                                                     Movies = d.DirectorMovies.ToList()
                                                  }).SingleOrDefault();
             return directorResponse;
         }

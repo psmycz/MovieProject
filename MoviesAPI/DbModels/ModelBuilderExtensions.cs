@@ -12,33 +12,17 @@ namespace MoviesAPI.DbModels
         {
             modelBuilder.Entity<MovieGenre>()                       // many to many: movies -> genres
                 .HasKey(mg => new { mg.MovieId, mg.GenreId });     
-            //modelBuilder.Entity<MovieGenre>()
-            //    .HasOne(mg => mg.Movie)
-            //    .WithMany(m => m.MovieGenres)
-            //    .HasForeignKey(mg => mg.MovieId);
-            //modelBuilder.Entity<MovieGenre>()
-            //    .HasOne(mg => mg.Genre)
-            //    .WithMany(g => g.MovieGenres)
-            //    .HasForeignKey(mg => mg.GenreId);
 
             modelBuilder.Entity<MovieUser>()                        // many to many: movies -> users
                 .HasKey(mu => new { mu.MovieId, mu.UserId });       
-            //modelBuilder.Entity<MovieUser>()
-            //    .HasOne(mu => mu.Movie)
-            //    .WithMany(m => m.MovieUsers)
-            //    .HasForeignKey(mu => mu.MovieId);
-            //modelBuilder.Entity<MovieUser>()
-            //    .HasOne(mu => mu.User)
-            //    .WithMany(u => u.MovieUsers)
-            //    .HasForeignKey(mu => mu.UserId);
 
             modelBuilder.Entity<Movie>()            // one to many:  one director -> many movies 
                 .HasOne<Director>(m => m.Director)
-                .WithMany(d => d.DMovies)
+                .WithMany(d => d.DirectorMovies)
                 .HasForeignKey(m => m.DirectorId);
 
             modelBuilder.Entity<Movie>()            // one to many: one movie -> many reviews
-                .HasMany<Review>(m => m.MReviews)
+                .HasMany<Review>(m => m.MovieReviews)
                 .WithOne(r => r.Movie)
                 .HasForeignKey(r => r.MovieId);
 
@@ -53,7 +37,7 @@ namespace MoviesAPI.DbModels
                 .HasForeignKey(mu => mu.MovieId);
 
             modelBuilder.Entity<User>()             // one to many: one user -> many reviews
-                .HasMany<Review>(u => u.UReviews)
+                .HasMany<Review>(u => u.UserReviews)
                 .WithOne(r => r.User)
                 .HasForeignKey(r => r.UserId);
 

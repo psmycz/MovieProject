@@ -11,7 +11,7 @@ namespace MoviesAPI.Models
 
         public int Year { get; set; }
 
-        public int? UsersRating { get; set; }
+        public double? UsersRating { get; set; }
 
         public Director Director { get; set; }
 

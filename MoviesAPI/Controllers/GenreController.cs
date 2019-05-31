@@ -10,20 +10,20 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class GenreController : ControllerBase
     {
-        private IGenreRepository GenreRepository;
+        private IGenreRepository genreRepository;
 
-        public GenreController(IGenreRepository genreRepository)
+        public GenreController(IGenreRepository _genreRepository)
         {
-            GenreRepository = genreRepository;
+            genreRepository = _genreRepository;
         }
 
-        #region GETALL
+
         [HttpGet]
         public IActionResult GetAllReviews()
         {
             try
             {
-                var genres = GenreRepository.GetAllGenres();
+                var genres = genreRepository.GetAllGenres();
 
                 if (genres == null)
                     return NoContent();
@@ -35,15 +35,15 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region GET
+
+
         [HttpGet("{genreId}")]
         public IActionResult Get(int genreId)
         {
             try
             {
-                var genre = GenreRepository.GetGenre(genreId);
+                var genre = genreRepository.GetGenre(genreId);
 
                 if (genre == null)
                     return NoContent();
@@ -55,9 +55,9 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region POST
+
+
         [HttpPost]
         public IActionResult Post([FromBody]GenreRequest genre)
         {
@@ -66,20 +66,20 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var newGenre = GenreRepository.Add(genre);
+                var newGenre = genreRepository.Add(genre);
                 if (newGenre == null)
                     return BadRequest();
 
-                return Created($"~/api/[controller]/{newGenre.GenreId}", newGenre);
+                return CreatedAtAction(nameof(Get), new { genreId = newGenre.GenreId }, newGenre);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region PUT
+
+
         [HttpPut]
         public IActionResult Put([FromBody]GenreUpdateVM genre)
         {
@@ -88,7 +88,7 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var updatedGenre = GenreRepository.Update(genre);
+                var updatedGenre = genreRepository.Update(genre);
 
                 if (updatedGenre == null)
                     return NoContent();
@@ -100,15 +100,15 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region DELETE
+
+
         [HttpDelete("{genreId}")]
         public IActionResult Delete(int genreId)
         {
             try
             {
-                var deletedGenre = GenreRepository.Delete(genreId);
+                var deletedGenre = genreRepository.Delete(genreId);
 
                 if (deletedGenre == null)
                     return NoContent();
@@ -120,7 +120,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
 
     }
 }

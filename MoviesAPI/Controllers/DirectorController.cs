@@ -10,20 +10,20 @@ namespace MoviesAPI.Controllers
     [ApiController]
     public class DirectorController : ControllerBase
     {
-        private IDirectorRepository DirectorRepository;
+        private IDirectorRepository directorRepository;
 
-        public DirectorController(IDirectorRepository directorRepository)
+        public DirectorController(IDirectorRepository _directorRepository)
         {
-            DirectorRepository = directorRepository;
+            directorRepository = _directorRepository;
         }
 
-        #region GETALL
+
         [HttpGet]
         public IActionResult GetAllReviews()
         {
             try
             {
-                var directors = DirectorRepository.GetAllDirectors();
+                var directors = directorRepository.GetAllDirectors();
 
                 if (directors == null)
                     return NoContent();
@@ -35,15 +35,15 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region GET
+
+
         [HttpGet("{directorId}")]
         public IActionResult Get(int directorId)
         {
             try
             {
-                var director = DirectorRepository.GetDirector(directorId);
+                var director = directorRepository.GetDirector(directorId);
 
                 if (director == null)
                     return NoContent();
@@ -55,9 +55,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region POST
         [HttpPost]
         public IActionResult Post([FromBody]DirectorRequest director)
         {
@@ -66,20 +64,18 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var newDirector = DirectorRepository.Add(director);
+                var newDirector = directorRepository.Add(director);
                 if (newDirector == null)
                     return BadRequest();
 
-                return Created($"~/api/[controller]/{newDirector.DirectorId}", newDirector);
+                return CreatedAtAction(nameof(Get), new { directorId = newDirector.DirectorId}, newDirector);
             }
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region PUT
         [HttpPut]
         public IActionResult Put([FromBody]DirectorUpdateVM director)
         {
@@ -88,7 +84,7 @@ namespace MoviesAPI.Controllers
 
             try
             {
-                var updatedDirector = DirectorRepository.Update(director);
+                var updatedDirector = directorRepository.Update(director);
 
                 if (updatedDirector == null)
                     return NoContent();
@@ -100,15 +96,13 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
 
-        #region DELETE
         [HttpDelete("{directorId}")]
         public IActionResult Delete(int directorId)
         {
             try
             {
-                var deletedDirector = DirectorRepository.Delete(directorId);
+                var deletedDirector = directorRepository.Delete(directorId);
 
                 if (deletedDirector == null)
                     return NoContent();
@@ -120,7 +114,7 @@ namespace MoviesAPI.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        #endregion
+
 
     }
 }
